@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-const ContactEditScreen = () => {
-  const [nome, setNome] = useState();
-  const [email, setEmail] = useState();
-  const [telefone, setTelefone] = useState();
+
+  const ContactEditScreen = ({ route }) => {
+    const { contact } = route.params;
+
+  const [nome, setNome] = useState(contact.name);
+  const [email, setEmail] = useState(contact.email);
+  const [telefone, setTelefone] = useState(contact.phoneNumber);
 
   const handleAlterar = () => {
     // Aqui você pode adicionar a lógica para atualizar o contato

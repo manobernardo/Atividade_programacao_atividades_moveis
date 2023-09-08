@@ -3,8 +3,8 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native
 
 const ContactListScreen = ({ navigation }) => {
   const [contacts, setContacts] = useState([
-    { id: '1', name: 'João', phoneNumber: '123-456-7890' },
-    { id: '2', name: 'Maria', phoneNumber: '987-654-3210' },
+    { id: '1', name: 'João', email: 'joao@gmail', phoneNumber: '123-456-7890' },
+    { id: '2', name: 'Maria', email: 'maria@gmail', phoneNumber: '987-654-3210' },
     
   ]);
 
