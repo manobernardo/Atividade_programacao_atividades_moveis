@@ -10,7 +10,14 @@ const ContactListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Lista de Contatos</Text>
+      <Text style={styles.header}>Lista de Contatos
+      <hr />
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('Cadastro de contatos')}
+      >
+        <Text style={styles.addButtonText}>+</Text>
+      </TouchableOpacity></Text>
       <FlatList
         data={contacts}
         keyExtractor={(item) => item.id}
@@ -22,15 +29,11 @@ const ContactListScreen = ({ navigation }) => {
           >
             <Text style={styles.contactName}>{item.name}</Text>
             <Text style={styles.contactPhoneNumber}>{item.phoneNumber}</Text>
+            <hr />
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Cadastro de contatos')}
-      >
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
+      
     </View>
   );
 };

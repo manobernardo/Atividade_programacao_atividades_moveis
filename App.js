@@ -20,12 +20,21 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login' >
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Lista de contatos" component={ListaContatos} />
+        <Stack.Screen name="Lista de contatos" component={ListaContatos}
+        options={({ navigation }) => ({
+          headerTitle: 'Volte para a Login',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              {/* Aqui está a seta personalizada que leva para OutraPagina */}
+              <Text style={{ color: 'blue', marginLeft: 10, fontSize: 40 }}>{'<'}</Text>
+            </TouchableOpacity>
+          ),
+        })} />
         <Stack.Screen name="Cadastro de contatos" component={CadastroContato}
         options={({ navigation }) => ({
           headerTitle: 'Volte para a Lista de contatos',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Lista de Contatos')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Lista de contatos')}>
               {/* Aqui está a seta personalizada que leva para OutraPagina */}
               <Text style={{ color: 'blue', marginLeft: 10, fontSize: 40 }}>{'<'}</Text>
             </TouchableOpacity>
