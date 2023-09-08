@@ -5,7 +5,7 @@ const ContactListScreen = ({ navigation }) => {
   const [contacts, setContacts] = useState([
     { id: '1', name: 'João', phoneNumber: '123-456-7890' },
     { id: '2', name: 'Maria', phoneNumber: '987-654-3210' },
-    // Adicione mais contatos conforme necessário
+    
   ]);
 
   return (
