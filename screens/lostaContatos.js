@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 const ContactListScreen = ({ navigation }) => {
-  const [contacts, setContacts] = useState([
-    { id: '1', name: 'João', email: 'joao@gmail', phoneNumber: '123-456-7890' },
-    { id: '2', name: 'Maria', email: 'maria@gmail', phoneNumber: '987-654-3210' },
+  const [contact, setContacts] = useState([]);
+  const isFocused = useIsFocused();
+  const consultarDados = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/contato');
+      setContacts(response.data); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  
+  useEffect(() => {
+    consultarDados();
+  }, [isFocused]);
+        
+        
     
-  ]);
 
   return (
     <View style={styles.container}>
@@ -19,16 +34,16 @@ const ContactListScreen = ({ navigation }) => {
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity></Text>
       <FlatList
-        data={contacts}
+        data={contact}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             
             style={styles.contactItem}
-            onPress={() => navigation.navigate('Editar contatos', { contact: item })}
+            onPress={() => navigation.navigate('Editar contatos', { usuario: item })}
           >
-            <Text style={styles.contactName}>{item.name}</Text>
-            <Text style={styles.contactPhoneNumber}>{item.phoneNumber}</Text>
+            <Text style={styles.contactName}>{item.nome}</Text>
+            <Text style={styles.contactPhoneNumber}>{item.telefone}</Text>
             <hr />
           </TouchableOpacity>
         )}

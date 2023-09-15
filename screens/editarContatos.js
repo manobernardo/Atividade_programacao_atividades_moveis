@@ -10,14 +10,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
   const [telefone, setTelefone] = useState(contact.phoneNumber);
 
   const handleAlterar = () => {
-    // Aqui você pode adicionar a lógica para atualizar o contato
-    // Substitua o código abaixo pela sua implementação real
+    
     Alert.alert('Contato Alterado', 'O contato foi alterado com sucesso.');
   };
 
   const handleExcluir = () => {
-    // Aqui você pode adicionar a lógica para excluir o contato
-    // Substitua o código abaixo pela sua implementação real
+    
     Alert.alert(
       'Confirmar Exclusão',
       'Tem certeza de que deseja excluir este contato?',
@@ -30,7 +28,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
           text: 'Excluir',
           onPress: () => {
             Alert.alert('Contato Excluído', 'O contato foi excluído com sucesso.');
-            // Lógica de exclusão aqui
+           
           },
         },
       ]

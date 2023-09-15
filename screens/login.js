@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  View,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
+  View,
 } from 'react-native';
 
 
@@ -29,7 +29,7 @@ const login = ({ navigation }) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Cadastro de contatos')} >
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Cadastro de usuarios')} >
           <Text style={styles.buttonText}>Cadastre-se</Text>
         </TouchableOpacity>
       </View>

@@ -9,9 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^19.0.0",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
+    "axios": "^1.5.0",
     "expo": "~49.0.8",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -23,8 +25,7 @@
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",
     "semantic-ui-css": "^2.5.0",
-    "semantic-ui-react": "^2.1.4",
-    "@expo/webpack-config": "^19.0.0"
+    "semantic-ui-react": "^2.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

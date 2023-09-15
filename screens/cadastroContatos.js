@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { Header } from 'react-native-elements';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
 
 const ContactFormScreen = () => {
+  const [id, setId] = useState('');
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
+
+  function inserirDados(){
+
+    const userData = {
+      id: id,
+      nome: nome,
+      email: email,
+      telefone: telefone
+    };
+
+    axios.post('http://localhost:3000/contato', userData)
+    .then(function (response) {
+    console.log(response);
+    }).catch(function (error) {
+    console.log(error);
+    
+    });
+    
+    }
+    
 
   const handleSalvar = () => {
     // Aqui você pode adicionar a lógica para salvar o contato
@@ -36,7 +58,7 @@ const ContactFormScreen = () => {
         keyboardType="phone-pad"
         style={styles.input}
       />
-      <TouchableOpacity onPress={handleSalvar} style={styles.button}>
+      <TouchableOpacity onPress={inserirDados} style={styles.button}>
         <Text style={styles.buttonText}>Salvar</Text>
       </TouchableOpacity>
     </View>

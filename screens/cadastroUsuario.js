@@ -1,11 +1,37 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
 
 const SignUpScreen = () => {
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  function inserirDados(){
+
+    const userData = {
+      id: id,
+      nome: name,
+      cpf: cpf,
+      email: email,
+      senha: password
+    };
+
+    axios.post('http://localhost:3000/usuario', userData)
+    .then(function (response) {
+    console.log(response);
+    }).catch(function (error) {
+    console.log(error);
+    
+    });
+    
+    }
+    useEffect(() => {
+      inserirDados();
+    }, []);
 
   const handleSignUp = () => {
     // Aqui você pode adicionar a lógica para salvar os dados do novo usuário.
@@ -48,8 +74,8 @@ const SignUpScreen = () => {
         value={password}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.saveButton} onPress={handleSignUp}>
-        <Text style={styles.saveButtonText}>Salvar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.addButtonText}>Salvar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -84,6 +110,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  addButtonText: {
+    color: '#fff', // Cor do texto no botão
+    fontSize: 24,
+    fontWeight: 'bold', // Negrito
   },
 });
 
