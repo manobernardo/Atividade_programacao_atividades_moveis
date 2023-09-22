@@ -1,48 +1,34 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
 
 
 const SignUpScreen = () => {
   const [id, setId] = useState('');
-  const [name, setName] = useState('');
+  const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [senha, setSenha] = useState('');
 
-  function inserirDados(){
-
+  const inserirDados = () => {
     const userData = {
       id: id,
-      nome: name,
+      nome: nome,
       cpf: cpf,
       email: email,
-      senha: password
+      senha: senha
     };
 
     axios.post('http://localhost:3000/usuario', userData)
-    .then(function (response) {
-    console.log(response);
-    }).catch(function (error) {
-    console.log(error);
-    
-    });
-    
-    }
-    useEffect(() => {
-      inserirDados();
-    }, []);
-
-  const handleSignUp = () => {
-    // Aqui você pode adicionar a lógica para salvar os dados do novo usuário.
-    // Certifique-se de validar os campos e executar as ações necessárias, como chamar uma API ou armazenar no banco de dados.
-
-    console.log('Nome:', name);
-    console.log('CPF:', cpf);
-    console.log('E-mail:', email);
-    console.log('Senha:', password);
-
-    // Após salvar os dados do usuário, você pode redirecioná-lo para a tela de login ou fazer o que for necessário.
+      .then(function (response) {
+        console.log(response);
+        // Se desejar, você pode adicionar aqui um redirecionamento para outra tela
+      })
+      .catch(function (error) {
+        console.log(error);
+        // Trate os erros de acordo com sua lógica de aplicação
+      });
   };
 
   return (
@@ -51,8 +37,8 @@ const SignUpScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Nome"
-        onChangeText={(text) => setName(text)}
-        value={name}
+        onChangeText={(text) => setNome(text)}
+        value={nome}
       />
       <TextInput
         style={styles.input}
@@ -70,11 +56,11 @@ const SignUpScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Senha"
-        onChangeText={(password) => setPassword(password)}
-        value={password}
+        onChangeText={(password) => setSenha(password)}
+        value={senha}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+      <TouchableOpacity style={styles.button} onPress={inserirDados}>
         <Text style={styles.addButtonText}>Salvar</Text>
       </TouchableOpacity>
     </View>

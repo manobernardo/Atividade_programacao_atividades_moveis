@@ -1,7 +1,7 @@
+import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
 
 const ContactListScreen = ({ navigation }) => {
   const [contact, setContacts] = useState([]);

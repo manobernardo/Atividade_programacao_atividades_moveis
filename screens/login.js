@@ -1,4 +1,6 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -7,36 +9,66 @@ import {
   View,
 } from 'react-native';
 
+const Login = ({ navigation }) => {
+  const [nome, setNome] = useState('');
+  const [senha, setSenha] = useState('');
 
+  const handleLogin = async () => {
+    try {
+  
+      // Faça a requisição de login aqui
+      const response = await axios.post('http://localhost:3000/usuario/login', {
+        nome: nome,
+        senha: senha,
+        
+      });
 
-// import { Container } from './styles';
+      // Verifique se a resposta indica que as credenciais estão corretas (você deve definir a lógica da sua API)
+      if (response.data.authenticated) {
+        navigation.navigate('Lista de contatos');
+        console.log(response.data) // Navegue para a tela de contatos se as credenciais estiverem corretas
+      } else {
+        // Caso contrário, mostre uma mensagem de erro
+        alert('Credenciais incorretas. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      alert('Erro ao fazer login. Tente novamente mais tarde.');
+    }
+  };
 
-const login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
+        value={nome}
+        onChangeText={(text) => setNome(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
+        value={senha}
+        onChangeText={(text) => setSenha(text)}
       />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Lista de contatos')} >
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Cadastro de usuarios')} >
+        <TouchableOpacity
+          style={styles.button1}
+          onPress={() => navigation.navigate('Cadastro de usuarios')}
+        >
           <Text style={styles.buttonText}>Cadastre-se</Text>
         </TouchableOpacity>
       </View>
     </View>
-
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -82,5 +114,5 @@ const styles = StyleSheet.create({
 });
 
 
-export default login;
+export default Login;
 

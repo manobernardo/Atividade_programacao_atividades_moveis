@@ -1,39 +1,47 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
-  const ContactEditScreen = ({ route }) => {
-    const { contact } = route.params;
+const ContactEditScreen = ({ route }) => {
+  const { usuario } = route.params || {};
+  console.log(route.params.data);
+  const [nome, setNome] = useState(usuario?.nome || '');
+  const [email, setEmail] = useState(usuario?.email || '');
+  const [telefone, setTelefone] = useState(usuario?.telefone || '');
 
-  const [nome, setNome] = useState(contact.name);
-  const [email, setEmail] = useState(contact.email);
-  const [telefone, setTelefone] = useState(contact.phoneNumber);
+  const alterarDados = () => {
 
-  const handleAlterar = () => {
     
-    Alert.alert('Contato Alterado', 'O contato foi alterado com sucesso.');
+    axios
+      .put(`http://localhost:3000/contato/${usuario.id}`, {
+        
+        nome: nome,
+        email: email,
+        telefone: telefone,
+      })
+      .then(function (response) {
+        console.log(response);
+        Alert.alert('Sucesso', 'Dados atualizados com sucesso.');
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert('Erro', 'Não foi possível atualizar os dados.');
+      });
   };
 
-  const handleExcluir = () => {
+  const excluirDados = () => {
+
+    axios.delete(`http://localhost:3000/contato/${usuario.id}`)
     
-    Alert.alert(
-      'Confirmar Exclusão',
-      'Tem certeza de que deseja excluir este contato?',
-      [
-        {
-          text: 'Cancelar',
-          onPress: () => console.log('Exclusão cancelada'),
-        },
-        {
-          text: 'Excluir',
-          onPress: () => {
-            Alert.alert('Contato Excluído', 'O contato foi excluído com sucesso.');
-           
-          },
-        },
-      ]
-    );
-  };
+    .then(function (response) {
+    console.log(response);
+    }).catch(function (error) {
+    console.log(error);
+    
+    });
+    
+    }
 
   return (
     <View style={styles.container}>
@@ -60,10 +68,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
       />
             <View style={styles.buttonContainer}>
 
-      <TouchableOpacity onPress={handleAlterar} style={styles.button}>
-        <Text style={styles.buttonText}>Alterar</Text>
+            <TouchableOpacity onPress={alterarDados} style={styles.button}>
+        <Text style={styles.buttonText}>Alterar Dados</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleExcluir} style={styles.buttonExcluir}>
+      <TouchableOpacity onPress={excluirDados} style={styles.buttonExcluir}>
         <Text style={styles.buttonText}>Excluir</Text>
       </TouchableOpacity>
       </View>
