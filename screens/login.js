@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   StyleSheet,
@@ -17,24 +18,21 @@ const Login = ({ navigation }) => {
     try {
   
       // Faça a requisição de login aqui
-      const response = await axios.post('http://localhost:3000/usuario/login', {
+      const response = await axios.post('http://localhost:3000/usuario',{
         nome: nome,
         senha: senha,
         
       });
 
       // Verifique se a resposta indica que as credenciais estão corretas (você deve definir a lógica da sua API)
-      if (response.data.authenticated) {
-        navigation.navigate('Lista de contatos');
-        console.log(response.data) // Navegue para a tela de contatos se as credenciais estiverem corretas
-      } else {
-        // Caso contrário, mostre uma mensagem de erro
-        alert('Credenciais incorretas. Tente novamente.');
-      }
-    } catch (error) {
-      console.error('Erro ao fazer login:', error);
-      alert('Erro ao fazer login. Tente novamente mais tarde.');
-    }
+      const navigation = useNavigation();
+    navigation.navigate('Lista de contatos');
+    // Se a resposta for bem-sucedida, o login foi realizado com sucesso
+    console.log('Login bem-sucedido:');
+  } catch (error) {
+    // Se a resposta for uma falha, o login não foi bem-sucedido
+    console.error('Erro ao fazer login:');
+  }
   };
 
   return (
