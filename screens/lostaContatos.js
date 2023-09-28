@@ -3,7 +3,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const ContactListScreen = ({ navigation }) => {
+const ContactListScreen = ({ navigation, route }) => {
+  const { nome } = route.params || {};
   const [contact, setContacts] = useState([]);
   const isFocused = useIsFocused();
   const consultarDados = async () => {
@@ -25,6 +26,12 @@ const ContactListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.profileButton}
+        onPress={() => navigation.navigate('Editar usuario', { nome: nome })} // Passar o nome do usuário para a tela do perfil
+      >
+        <Text style={styles.profileButtonText}>ir para perfil, {nome}</Text>
+      </TouchableOpacity>
       <Text style={styles.header}>Lista de Contatos
       <hr />
       <TouchableOpacity

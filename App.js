@@ -9,7 +9,7 @@ import ListaContatos from './screens/lostaContatos';
 import CadastroContato from './screens/cadastroContatos';
 import EditarContato from './screens/editarContatos';
 import CadaastroUsuario from './screens/cadastroUsuario';
-
+import EditarUsuario from './screens/editarUsuario';
 
 
 
@@ -20,6 +20,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login' >
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Editar usuario" component={EditarUsuario} />
         <Stack.Screen name="Lista de contatos" component={ListaContatos}
         options={({ navigation }) => ({
           headerTitle: 'Volte para a Login',

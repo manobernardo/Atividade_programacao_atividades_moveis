@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import  {  showMessage ,  hideMessage  } from "react-native-flash-message";
+
 
 import {
   StyleSheet,
@@ -11,29 +13,30 @@ import {
 } from 'react-native';
 
 const Login = ({ navigation }) => {
-  const [nome, setNome] = useState('');
-  const [senha, setSenha] = useState('');
+  const [nome, setNome] = useState([]);
+  const [senha, setSenha] = useState([]);
 
   const handleLogin = async () => {
-    try {
-  
-      // Faça a requisição de login aqui
-      const response = await axios.post('http://localhost:3000/usuario',{
-        nome: nome,
-        senha: senha,
-        
+    axios.get('http://localhost:3000/usuario?nome=' + nome + '&senha=' + senha)
+      .then(function (response) {
+        if (response.data.length === 0) {
+          showMessage({
+            message: "Email ou Senha inválido, verifique os dados!",
+            type: "info",
+          });
+        } else {
+          navigation.navigate('Lista de contatos', { nome: nome }); // Passar o nome do usuário para a próxima tela
+          showMessage({
+            message: "Seja bem-vindo",
+            type: "success",
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-
-      // Verifique se a resposta indica que as credenciais estão corretas (você deve definir a lógica da sua API)
-      const navigation = useNavigation();
-    navigation.navigate('Lista de contatos');
-    // Se a resposta for bem-sucedida, o login foi realizado com sucesso
-    console.log('Login bem-sucedido:');
-  } catch (error) {
-    // Se a resposta for uma falha, o login não foi bem-sucedido
-    console.error('Erro ao fazer login:');
   }
-  };
+  
 
   return (
     <View style={styles.container}>
