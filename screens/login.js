@@ -1,9 +1,7 @@
 import axios from 'axios';
+import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import  {  showMessage ,  hideMessage  } from "react-native-flash-message";
-
-
 import {
   StyleSheet,
   Text,
@@ -11,10 +9,46 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { showMessage } from "react-native-flash-message";
+
+
+
+
+
 
 const Login = ({ navigation }) => {
   const [nome, setNome] = useState([]);
   const [senha, setSenha] = useState([]);
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDAVOXCWliiWeylZnuzZq3JjVExtMefV1s",
+    authDomain: "manofone-11122.firebaseapp.com",
+    projectId: "manofone-11122",
+    storageBucket: "manofone-11122.appspot.com",
+    messagingSenderId: "569684157113",
+    appId: "1:569684157113:web:a3e5dff17bf4c000367168"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+
+
+  function Login() {
+    const auth = getAuth();
+  
+    signInWithEmailAndPassword(auth, nome, senha)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigation.navigate('Lista de contatos');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  }
 
   const handleLogin = async () => {
     axios.get('http://localhost:3000/usuario?nome=' + nome + '&senha=' + senha)
@@ -36,26 +70,53 @@ const Login = ({ navigation }) => {
         console.log(error);
       });
   }
-  
 
+ 
+     
+    function loginWithGoogle(){
+     
+
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          navigation.navigate('Lista de contatos');
+          // ...
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+    };
+  
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Email"
         value={nome}
         onChangeText={(text) => setNome(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Senha"
         secureTextEntry
         value={senha}
         onChangeText={(text) => setSenha(text)}
       />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={()=>Login()}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
@@ -65,6 +126,11 @@ const Login = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Cadastre-se</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={()=>loginWithGoogle()}>
+          <Text style={styles.buttonText}>Comece com sua conta com o Google</Text>
+        </TouchableOpacity>
+        
       </View>
     </View>
   );

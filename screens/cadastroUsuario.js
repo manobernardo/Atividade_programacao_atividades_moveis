@@ -1,15 +1,41 @@
 import axios from 'axios';
+import { initializeApp } from "firebase/app";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-
-
 const SignUpScreen = () => {
-  const [id, setId] = useState('');
-  const [nome, setNome] = useState('');
-  const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDAVOXCWliiWeylZnuzZq3JjVExtMefV1s",
+    authDomain: "manofone-11122.firebaseapp.com",
+    projectId: "manofone-11122",
+    storageBucket: "manofone-11122.appspot.com",
+    messagingSenderId: "569684157113",
+    appId: "1:569684157113:web:a3e5dff17bf4c000367168"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+
+  function Cadastrar() {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, senha)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
+
 
   const inserirDados = () => {
     const userData = {
@@ -34,18 +60,7 @@ const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Cadastro de Usuário</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        onChangeText={(text) => setNome(text)}
-        value={nome}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="CPF"
-        onChangeText={(text) => setCpf(text)}
-        value={cpf}
-      />
+
       <TextInput
         style={styles.input}
         placeholder="E-mail"
@@ -56,11 +71,11 @@ const SignUpScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Senha"
-        onChangeText={(password) => setSenha(password)}
+        onChangeText={(text) => setSenha(text)}
         value={senha}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={inserirDados}>
+      <TouchableOpacity style={styles.button} onPress={()=>Cadastrar()}>
         <Text style={styles.addButtonText}>Salvar</Text>
       </TouchableOpacity>
     </View>

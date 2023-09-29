@@ -1,51 +1,81 @@
 import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
+import { initializeApp } from "firebase/app";
+import { getAuth, signOut } from "firebase/auth";
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const ContactListScreen = ({ navigation, route }) => {
-  const { nome } = route.params || {};
+  const { email } = route.params || {};
   const [contact, setContacts] = useState([]);
   const isFocused = useIsFocused();
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDAVOXCWliiWeylZnuzZq3JjVExtMefV1s",
+    authDomain: "manofone-11122.firebaseapp.com",
+    projectId: "manofone-11122",
+    storageBucket: "manofone-11122.appspot.com",
+    messagingSenderId: "569684157113",
+    appId: "1:569684157113:web:a3e5dff17bf4c000367168"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+
   const consultarDados = async () => {
     try {
       const response = await axios.get('http://localhost:3000/contato');
-      setContacts(response.data); 
+      setContacts(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  
+
   useEffect(() => {
     consultarDados();
   }, [isFocused]);
-        
-        
-    
+
+  function Logoult() {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.profileButton}
-        onPress={() => navigation.navigate('Editar usuario', { nome: nome })} // Passar o nome do usuário para a tela do perfil
-      >
-        <Text style={styles.profileButtonText}>ir para perfil, {nome}</Text>
-      </TouchableOpacity>
+      
+        <TouchableOpacity
+          style={styles.button1}
+          onPress={
+            () => {
+              navigation.navigate('Login');
+              Logoult()
+            }
+          }>
+          <Text style={styles.buttonText}>Logoult</Text>
+        </TouchableOpacity>
+      
+
       <Text style={styles.header}>Lista de Contatos
-      <hr />
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('Cadastro de contatos')}
-      >
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity></Text>
+        <hr />
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => navigation.navigate('Cadastro de contatos')}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity></Text>
       <FlatList
         data={contact}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            
+
             style={styles.contactItem}
             onPress={() => navigation.navigate('Editar contatos', { usuario: item })}
           >
@@ -55,7 +85,7 @@ const ContactListScreen = ({ navigation, route }) => {
           </TouchableOpacity>
         )}
       />
-      
+
     </View>
   );
 };
@@ -102,6 +132,17 @@ const styles = StyleSheet.create({
     color: '#fff', // Cor do texto no botão
     fontSize: 24,
     fontWeight: 'bold', // Negrito
+  },
+  button1: {
+    backgroundColor: '#f00',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 120
   },
 });
 
